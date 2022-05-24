@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Collection</title>
+    <link rel="stylesheet" href="essai.css">
+    <script src="essai.js" defer></script>
+   
+</head>
+<body>
+    <div class="mask">
+        <div class="header">
+                <div>
+                    <h1>Welcome to Onlibrary !</h1>
+                    <p>A simple way to stack your read or next-to-read books.</p>
+                    <p>Start now and add a new book to your collection.</p>
+                    <button class="addBook">+</button>
+                </div>
+                <img src="illu2.png" alt="">
+        </div>
+
+        <div class="main">
+            <div class="container">
+            </div>
+        </div>
+    </div>
+
+    <div class="formContainer">
+        <button class="cancelForm">X</button>
+        <form method="post">
+            <fieldset>
+                <legend>Add a new book to your collection</legend>
+
+                <div class="formField">
+                    <label for="title">Book title</label>
+                    <input type="text" id="title" name="title" placeholder=" " required>
+                    <span></span>
+                </div>
+
+                <div class="formField">
+                    <label for="author">Book author</label>
+                    <input type="text" id="author" name="author" placeholder=" " required>
+                    <span></span>
+                </div>
+
+                <div class="formField">
+                    <label for="pages">Number of pages</label>
+                    <input type="number" id="pages" name="pages" placeholder=" " required>
+                    <span></span>
+                </div>
+
+                <div class="formField">
+                    <label for="status">Read or not read yet ?</label>
+                    <input type="text" id="status" name="status" placeholder=" " required>
+                    <span></span>
+                </div>
+
+                <button type="button" class="submit">Validate</button>
+            </fieldset>
+        </form>
+    </div>
+
+</body>
+</html>
