@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
 
+:root{
+    --orange-color : #E62100;
+    --blue-color : #15454C;
+}
+
 html{
     font-family: 'Oswald', sans-serif;
 }
@@ -21,10 +26,19 @@ body{
     margin: 0;
 }
 
+.blur{
+    background: lightgray;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+}
+
 .header h1{
     font-size: 4vw;
     color: white;
-    text-shadow: 1px 1px #E62100, 2px 2px #E62100;
+    text-shadow: 1px 1px var(--orange-color), 2px 2px var(--orange-color);
 }
 
 .header > div >*{
@@ -51,6 +65,172 @@ body{
     height: 90%;
     width: auto;
     filter: drop-shadow(5px 5px 5px #222);
+}
+
+.addBook{
+    background-color: transparent;
+    border: none;
+    color: white;
+    box-shadow: 1px 1px white, 2px 2px var(--orange-color), 3px 3px var(--orange-color);
+    font-weight: 700;
+    font-size: 25px;
+    border-radius: 10px;
+    padding: 8px 40px;
+    margin-top: 5px;
+}
+
+.addBook:hover{
+    background-color: white;
+    box-shadow: 1px 1px var(--orange-color), 2px 2px var(--orange-color);
+    color: var(--orange-color);
+    margin-top: 0;
+    cursor: pointer;
+}
+
+.formContainer{
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    margin: auto;
+    transform: translateY(-50%);
+    width: 350px;
+    padding: 40px;
+}
+
+form{
+    color: var(--blue-color);
+    border: 1px solid var(--blue-color);
+    padding: 20px 40px;
+    position: relative;
+}
+
+.formAppearance{
+    visibility: visible;
+}
+
+label{
+    display: block;
+    font-size: 15px;
+}
+
+legend{
+    margin-bottom: 25px;
+    font-size: 19px;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.statusDisplay{
+    font-size: 15px;
+    margin-left: 15px;
+}
+
+.formField{
+    margin-top: 15px;
+    width: fit-content;
+    position: relative;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+.cancelForm{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    color: var(--blue-color);
+    font-weight: bold;
+}
+
+.cancelForm:hover{
+    cursor: pointer;
+}
+
+fieldset{
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+input{
+    padding: 2px;
+    border: 1px solid var(--blue-color);
+}
+
+input:focus{
+    outline-color: var(--orange-color);
+}
+
+input[required] + span{
+    position: relative;
+    display: inline;
+}
+
+input[required] + span::before {
+    content: 'required';
+    font-size: clamp(7px, 0.9vw, 11px);
+    padding: 0.1vw;
+    color: white;
+    background-color: var(--blue-color);
+    position: absolute;
+    top: -1.5em;
+    right: 1.2em;
+    padding: 1px 8px;
+}
+
+input[required]:invalid:placeholder-shown + span::after {
+    visibility: hidden;
+}
+
+input[required]:invalid:not(:placeholder-shown) + span::after {
+    content: 'x';
+    font-size: clamp(7px, 0.9vw, 11px);
+    color: red;
+    position: absolute;
+    top: 5px;
+    right: 3px;
+    visibility: visible;
+}
+
+input[required]:valid + span::after {
+    content: ' 🗸';
+    font-size: clamp(7px, 0.9vw, 11px);
+    color: green;
+    position: absolute;
+    top: 5px;
+    right: 3px;
+}
+
+input[type='checkbox']{
+    opacity: 0;
+    margin: 0;
+    width: 0;
+}
+
+.submit{
+    width: fit-content;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--blue-color);
+    color: white;
+    padding: 6px 22px;
+    font-size: 10px;
+    margin-top: 30px;
+    justify-self: center;
+    position: relative;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+}
+
+.submit:hover{
+    cursor: pointer;
+    background-color: var(--orange-color);
+    color: white;
 }
 
 .container{
@@ -84,12 +264,6 @@ body{
     margin-left: 20px;
 }
 
-.container button{
-    position: absolute;
-    bottom: 18px;
-    right: 20px;
-}
-
 .container div p{
     margin: 0;
     padding: 0;
@@ -100,157 +274,31 @@ body{
     font-weight: bold;
 }
 
-
-.notRead{
-    opacity: 0.5;
-}
-
-.formContainer{
-    visibility: hidden;
-    position: absolute;
-    top: 50%;
-    margin: auto;
-    transform: translateY(-50%);
-    width: 350px;
-    padding: 40px;
-}
-
-form{
-    color: #1E292D;
-    border: 1px solid #1E292D;
-    padding: 20px 40px;
+.slider {
     position: relative;
-}
-
-legend{
-    margin-bottom: 25px;
-    font-size: 19px;
-    padding-bottom: 15px;
-    text-align: center;
-}
-
-.statusDisplay{
-    font-size: 15px;
-    margin-left: 15px;
-}
-
-.switchContainer{
-    display: flex;
-}
-
-.formField{
-    margin-top: 15px;
-    width: fit-content;
-    position: relative;
-    left: 50%; 
-    transform: translate(-50%, -50%);
-}
-
-.cancelForm{
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: none;
-    border: none;
-    color: #1E292D;
-    font-weight: bold;
-}
-
-.blur{
-    background: lightgray;
-    filter: blur(5px);
-    -webkit-filter: blur(5px);
-    -moz-filter: blur(5px);
-    -o-filter: blur(5px);
-    -ms-filter: blur(5px);
-}
-
-fieldset{
-    border: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-input{
-    padding: 2px;
-    border: 1px solid #1E292D;
-}
-
-input:focus{
-    outline-color: #E62100;
-}
-
-input[required] + span{
-    position: relative;
-    display: inline;
-}
-
-input[required] + span::before {
-    content: 'required';
-    font-size: clamp(7px, 0.9vw, 11px);
-    padding: 0.1vw;
+    width: 70px;
+    height: 20px;
     background-color: var(--blue-color);
-    color: white;
-    background-color: #15454C;
-    position: absolute;
-    top: -1.5em;
-    right: 1.2em;
-    padding: 1px 8px;
-}
-
-input[required]:invalid:placeholder-shown + span::after {
-    visibility: hidden;
-}
-
-input[required]:invalid:not(:placeholder-shown) + span::after {
-    content: 'x';
-    font-size: clamp(7px, 0.9vw, 11px);
-    color: red;
-    position: absolute;
-    top: 5px;
-    right: 3px;
-    visibility: visible;
-}
-
-input[required]:valid + span::after {
-    content: ' 🗸';
-    font-size: clamp(7px, 0.9vw, 11px);
-    color: green;
-    position: absolute;
-    top: 5px;
-    right: 3px;
-}
-
-.formAppearance{
-    visibility: visible;
-}
-
-label{
-    display: block;
-    font-size: 15px;
-}
-
-.addBook{
-    background-color: transparent;
-    border: none;
-    color: white;
-    box-shadow: 1px 1px white, 2px 2px #E62100, 3px 3px #E62100;
-    font-weight: 700;
-    font-size: 25px;
-    border-radius: 10px;
-    padding: 8px 40px;
-    margin-top: 5px;
-}
-
-.addBook:hover{
-    background-color: white;
-    box-shadow: 1px 1px #E62100, 2px 2px #E62100;
-    color: #E62100;
-    margin-top: 0;
+    display: inline-block;
     cursor: pointer;
+    transition: all 500ms cubic-bezier(0.34, 1.36, 0.2, 1);
+}
+  
+.slider>span{
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 33px;
+    height: 16px;
+    background-color: white;
+}  
+
+.deleteBook{
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 12px;
 }
 
 #githubLogo{
@@ -267,63 +315,4 @@ label{
     transform: rotate(-360deg);
     transition: 0.5s;
     bottom: 19px;
-}
-
-.switch{
-    display: block;
-}
-
-.slider {
-    position: relative;
-    width: 70px;
-    height: 20px;
-    background-color: #15454C;
-    display: inline-block;
-    cursor: pointer;
-    transition: all 500ms cubic-bezier(0.34, 1.36, 0.2, 1);
-}
-  
-.slider>span{
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 33px;
-    height: 16px;
-    background-color: white;
-}   
-
-input[type='checkbox']{
-    opacity: 0;
-    margin: 0;
-    width: 0;
-}
-
-.deleteBook{
-    color: white;
-    font-weight: bold;
-    position: absolute;
-    top: 5px;
-    right: 12px;
-}
-
-.submit{
-    width: fit-content;
-    border-radius: 5px;
-    border: none;
-    background-color: #15454C;
-    color: white;
-    padding: 6px 22px;
-    font-size: 10px;
-    margin-top: 30px;
-    justify-self: center;
-    position: relative;
-    left: 50%; 
-    transform: translate(-50%, -50%);
-    font-weight: bold;
-}
-
-.submit:hover{
-    cursor: pointer;
-    background-color: #E62100;
-    color: white;
 }
