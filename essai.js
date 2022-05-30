@@ -43,11 +43,12 @@ function displayNewBook(arrOfBooks){
     bookToDisplay.setAttribute('data-index', arrOfBooks.length-1);
 
     let deleteBook = document.createElement('span');
-    deleteBook.textContent = 'X';
+    deleteBook.textContent = 'x';
+    deleteBook.style.cursor = 'pointer';
     deleteBook.classList.add('deleteBook');
     
     let titleDisplay = document.createElement('p');
-    titleDisplay.textContent = arrOfBooks[arrOfBooks.length-1].title;
+    titleDisplay.textContent = (arrOfBooks[arrOfBooks.length-1].title).toUpperCase();
 
     let authorDisplay = document.createElement('p');
     authorDisplay.textContent = `By : ${arrOfBooks[arrOfBooks.length-1].author}`;
@@ -60,6 +61,7 @@ function displayNewBook(arrOfBooks){
     checkbox.setAttribute('type', 'checkbox');
     let slider = document.createElement('div');
     slider.classList.add('slider');
+    slider.style.backgroundColor = 'white';
     slider.setAttribute('data-index', arrOfBooks.length-1);
     let statusDis = document.createElement('span');
     statusDis.classList.add('test');
@@ -74,7 +76,7 @@ function displayNewBook(arrOfBooks){
         sliderPiece.style.backgroundColor = '#E62100';
     } else {
         sliderPiece.style.marginLeft = '31px';
-        sliderPiece.style.backgroundColor = '#15454C'
+        sliderPiece.style.backgroundColor = '#15454C';
     } 
 
     bookToDisplay.append(deleteBook, titleDisplay, authorDisplay, pagesDisplay, statusDisplay);
@@ -120,6 +122,13 @@ SUBMIT_BUTN.addEventListener('click', function() {
         REQUIREDINPUTS.forEach(requiredInput => requiredInput.setAttribute('placeholder', ' '));
         SLIDER_PIECE.style.marginLeft = 0;
 }
+    else{
+        console.log(Array.from(FORM_INPUTS).filter(input => input.checkValidity()===false));
+        let arr = Array.from(FORM_INPUTS).filter(input => input.checkValidity()===false);
+        arr.forEach(item => {
+            item.setAttribute('placeholder', 'enter a valid value');
+    })
+    }
 })
 
 REQUIREDINPUTS.forEach(requiredInput =>{

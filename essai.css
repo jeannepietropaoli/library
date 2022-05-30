@@ -118,10 +118,33 @@ body{
 form{
     color: #1E292D;
     border: 1px solid #1E292D;
-    padding: 40px;
+    padding: 20px 40px;
     position: relative;
 }
 
+legend{
+    margin-bottom: 25px;
+    font-size: 19px;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.statusDisplay{
+    font-size: 15px;
+    margin-left: 15px;
+}
+
+.switchContainer{
+    display: flex;
+}
+
+.formField{
+    margin-top: 15px;
+    width: fit-content;
+    position: relative;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
 
 .cancelForm{
     position: absolute;
@@ -144,6 +167,20 @@ form{
 
 fieldset{
     border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+input{
+    padding: 2px;
+    border: 1px solid #1E292D;
+}
+
+input:focus{
+    outline-color: #E62100;
 }
 
 input[required] + span{
@@ -160,7 +197,7 @@ input[required] + span::before {
     background-color: #15454C;
     position: absolute;
     top: -1.5em;
-    right: 1.8em;
+    right: 1.2em;
     padding: 1px 8px;
 }
 
@@ -173,7 +210,7 @@ input[required]:invalid:not(:placeholder-shown) + span::after {
     font-size: clamp(7px, 0.9vw, 11px);
     color: red;
     position: absolute;
-    top: 0;
+    top: 5px;
     right: 3px;
     visibility: visible;
 }
@@ -183,10 +220,9 @@ input[required]:valid + span::after {
     font-size: clamp(7px, 0.9vw, 11px);
     color: green;
     position: absolute;
-    top: 0;
+    top: 5px;
     right: 3px;
 }
-
 
 .formAppearance{
     visibility: visible;
@@ -194,6 +230,7 @@ input[required]:valid + span::after {
 
 label{
     display: block;
+    font-size: 15px;
 }
 
 .addBook{
@@ -240,7 +277,7 @@ label{
     position: relative;
     width: 70px;
     height: 20px;
-    background-color: lightgrey;
+    background-color: #15454C;
     display: inline-block;
     cursor: pointer;
     transition: all 500ms cubic-bezier(0.34, 1.36, 0.2, 1);
@@ -266,6 +303,27 @@ input[type='checkbox']{
     font-weight: bold;
     position: absolute;
     top: 5px;
-    right: 7px;
+    right: 12px;
 }
 
+.submit{
+    width: fit-content;
+    border-radius: 5px;
+    border: none;
+    background-color: #15454C;
+    color: white;
+    padding: 6px 22px;
+    font-size: 10px;
+    margin-top: 30px;
+    justify-self: center;
+    position: relative;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+}
+
+.submit:hover{
+    cursor: pointer;
+    background-color: #E62100;
+    color: white;
+}
