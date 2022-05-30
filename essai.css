@@ -69,13 +69,15 @@ body{
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     align-items: center;
-    padding: 20px;
+    padding: 20px 20px 7px 20px;
     position: relative;
 }
 
-.container>div>span{
+.container>div>div{
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
 }
 
 .container>div>span>span{
@@ -253,22 +255,17 @@ label{
     background-color: white;
 }   
 
-/*input[value='not read yet'].slider::before{
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 33px;
-    height: 16px;
-    background-color: red;
-}
-
-input:checked + .slider:before{
-    transform: translateX(26px);
-} */
-
 input[type='checkbox']{
     opacity: 0;
     margin: 0;
     width: 0;
+}
+
+.deleteBook{
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 7px;
 }
 

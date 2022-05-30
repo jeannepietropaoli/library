@@ -41,6 +41,10 @@ function addBookToLibrary() {
 function displayNewBook(arrOfBooks){
     let bookToDisplay = document.createElement('div');
     bookToDisplay.setAttribute('data-index', arrOfBooks.length-1);
+
+    let deleteBook = document.createElement('span');
+    deleteBook.textContent = 'X';
+    deleteBook.classList.add('deleteBook');
     
     let titleDisplay = document.createElement('p');
     titleDisplay.textContent = arrOfBooks[arrOfBooks.length-1].title;
@@ -62,17 +66,33 @@ function displayNewBook(arrOfBooks){
     statusDis.textContent = arrOfBooks[arrOfBooks.length-1].status;
     
     let sliderPiece = document.createElement('span');
-    statusDisplay.append(checkbox, slider, statusDis);
+    statusDisplay.append(checkbox, statusDis, slider);
     slider.appendChild(sliderPiece);
 
-    bookToDisplay.append(titleDisplay, authorDisplay, pagesDisplay, statusDisplay);
+    if (arrOfBooks[arrOfBooks.length-1].status === 'read'){
+        sliderPiece.style.marginLeft = 0;
+        sliderPiece.style.backgroundColor = '#E62100';
+    } else {
+        sliderPiece.style.marginLeft = '31px';
+        sliderPiece.style.backgroundColor = '#15454C'
+    } 
+
+    bookToDisplay.append(deleteBook, titleDisplay, authorDisplay, pagesDisplay, statusDisplay);
     CONTAINER.appendChild(bookToDisplay);
+
+    deleteBook.addEventListener('click', (e) => {
+        books.splice(e.target.parentElement.getAttribute('data-index'),1);
+        CONTAINER.removeChild(e.target.parentElement);
+    })
 
     slider.addEventListener('click', ()=> {
         console.log(slider.getAttribute('data-index'));
-        slider.nextElementSibling.textContent === 'read' ? slider.nextElementSibling.textContent = 'not read yet' :
-        slider.nextElementSibling.textContent = 'read';
-        arrOfBooks[slider.getAttribute('data-index')].status = slider.nextElementSibling.textContent;
+        slider.previousElementSibling.textContent === 'read' ? slider.previousElementSibling.textContent = 'not read yet' :
+        slider.previousElementSibling.textContent = 'read';
+        arrOfBooks[slider.getAttribute('data-index')].status = slider.previousElementSibling.textContent;
+        sliderPiece.style.marginLeft === '31px' ? sliderPiece.style.marginLeft = 0 : sliderPiece.style.marginLeft = '31px';
+        console.log(sliderPiece);
+        sliderPiece.style.marginLeft === '31px' ? sliderPiece.style.backgroundColor = '#15454C' : sliderPiece.style.backgroundColor = '#E62100';
     })
 }
 
