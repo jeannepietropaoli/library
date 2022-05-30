@@ -17,12 +17,18 @@ body{
 .mask{
     width: 100%;
     height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .header h1{
     font-size: 4vw;
     color: white;
     text-shadow: 1px 1px #E62100, 2px 2px #E62100;
+}
+
+.header > div >*{
+    margin-left: 15px;
 }
 
 .header p{
@@ -39,7 +45,6 @@ body{
     grid-template-rows: 100%;
     justify-items: center;
     align-items: stretch;
-    padding: 15px;
 }
 
 .header > img{
@@ -56,7 +61,7 @@ body{
     gap: 75px;
 }
 
-.container div{
+.container>div{
     background: linear-gradient(45deg, #002123, #0F616B);
     height: 180px;
     border-radius: 12px;
@@ -66,6 +71,15 @@ body{
     align-items: center;
     padding: 20px;
     position: relative;
+}
+
+.container>div>span{
+    display: flex;
+    align-items: center;
+}
+
+.container>div>span>span{
+    margin-left: 20px;
 }
 
 .container button{
@@ -95,29 +109,64 @@ body{
     top: 50%;
     margin: auto;
     transform: translateY(-50%);
+    width: 350px;
+    padding: 40px;
 }
 
-input + span{
+form{
+    color: #1E292D;
+    border: 1px solid #1E292D;
+    padding: 40px;
+    position: relative;
+}
+
+
+.cancelForm{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    color: #1E292D;
+    font-weight: bold;
+}
+
+.blur{
+    background: lightgray;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+}
+
+fieldset{
+    border: none;
+}
+
+input[required] + span{
     position: relative;
     display: inline;
 }
 
-input + span::before {
+input[required] + span::before {
     content: 'required';
     font-size: clamp(7px, 0.9vw, 11px);
     padding: 0.1vw;
     background-color: var(--blue-color);
     color: white;
+    background-color: #15454C;
     position: absolute;
     top: -1.5em;
     right: 1.8em;
+    padding: 1px 8px;
 }
 
-input:invalid:placeholder-shown + span::after {
+input[required]:invalid:placeholder-shown + span::after {
     visibility: hidden;
 }
 
-input:invalid:not(:placeholder-shown) + span::after {
+input[required]:invalid:not(:placeholder-shown) + span::after {
     content: 'x';
     font-size: clamp(7px, 0.9vw, 11px);
     color: red;
@@ -127,7 +176,7 @@ input:invalid:not(:placeholder-shown) + span::after {
     visibility: visible;
 }
 
-input:valid + span::after {
+input[required]:valid + span::after {
     content: ' 🗸';
     font-size: clamp(7px, 0.9vw, 11px);
     color: green;
@@ -165,4 +214,61 @@ label{
     cursor: pointer;
 }
 
+#githubLogo{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    transition: 0.5s;
+}
+
+#githubLogo:hover{
+    transform: rotate(-360deg);
+    transition: 0.5s;
+    bottom: 19px;
+}
+
+.switch{
+    display: block;
+}
+
+.slider {
+    position: relative;
+    width: 70px;
+    height: 20px;
+    background-color: lightgrey;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 500ms cubic-bezier(0.34, 1.36, 0.2, 1);
+}
+  
+.slider>span{
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 33px;
+    height: 16px;
+    background-color: white;
+}   
+
+/*input[value='not read yet'].slider::before{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 33px;
+    height: 16px;
+    background-color: red;
+}
+
+input:checked + .slider:before{
+    transform: translateX(26px);
+} */
+
+input[type='checkbox']{
+    opacity: 0;
+    margin: 0;
+    width: 0;
+}
 
