@@ -1,19 +1,3 @@
-const CONTAINER = document.querySelector('.container');
-const ADDBOOK = document.querySelector('.addBook');
-const FORM_CONTAINER = document.querySelector('.formContainer');
-const MASK = document.querySelector('.mask');
-const SUBMIT_BUTN = document.querySelector('.submit');
-const FORM_INPUTS = document.querySelectorAll('form input');
-const REQUIREDINPUTS = document.querySelectorAll('input[required]');
-const CANCEL_FORM = document.querySelector('.cancelForm');
-const GITHUBLINK = document.querySelector('a');
-const GITHUBBTN = document.querySelector('#githubLogo');
-const SLIDER = document.querySelector('.slider');
-const FORM_CHECKBOX = document.querySelector('.FormCheckbox');
-FORM_CHECKBOX.value = 'read';
-const STATUS_DISPLAY = document.querySelector('.statusDisplay');
-const SLIDER_PIECE = document.querySelector('.slider>span');
-
 class Book {
     constructor(bookTitle, bookAuthor, bookPages, bookStatus) {
         this.title = bookTitle;
@@ -79,7 +63,7 @@ class Book {
         statusDisplay.append(checkbox, statusDis, slider);
         slider.appendChild(sliderPiece);
         bookToDisplay.append(deleteBook, titleDisplay, authorDisplay, pagesDisplay, statusDisplay);
-        CONTAINER.appendChild(bookToDisplay);
+        library.CONTAINER.appendChild(bookToDisplay);
     }
     
     defineSliderColor(sliderPiece) {
@@ -95,7 +79,7 @@ class Book {
     deleteABook(deleteBook){
         deleteBook.addEventListener('click', (e) => {
             library.books.splice(e.target.parentElement.getAttribute('data-index'),1);
-            CONTAINER.removeChild(e.target.parentElement);
+            library.CONTAINER.removeChild(e.target.parentElement);
         })
     }
  
@@ -111,6 +95,7 @@ class Book {
 }
 
 const library = (()=> {
+    const CONTAINER = document.querySelector('.container');
     let books = [];
     const displayNewBook = () => {
         const bookToDisplay = books[books.length-1].createBookCard();
@@ -135,17 +120,34 @@ const library = (()=> {
         let titleInput =  document.querySelector('#title').value;
         let authorInput = document.querySelector('#author').value;
         let pagesInput = document.querySelector('#pages').value;
-        let statusInput = FORM_CHECKBOX.value;
+        let statusInput = form.FORM_CHECKBOX.value;
         books.push(new Book(titleInput, authorInput, pagesInput , statusInput));
     }
+    const ADDBOOK = document.querySelector('.addBook');
+    ADDBOOK.addEventListener('click', function(){
+        form.formAppearence();
+        form.FORM_CHECKBOX.value = 'read';
+    })
     return {
         books,
         addBookToLibrary,
-        displayNewBook
+        displayNewBook,
+        CONTAINER
     }
 })()
 
 const form = (() => {
+    const SLIDER_PIECE = document.querySelector('.slider>span');
+    const SLIDER = document.querySelector('.slider');
+    const STATUS_DISPLAY = document.querySelector('.statusDisplay');
+    const FORM_CHECKBOX = document.querySelector('.FormCheckbox');
+    FORM_CHECKBOX.value = 'read';
+    const FORM_CONTAINER = document.querySelector('.formContainer');
+    const MASK = document.querySelector('.mask');
+    const SUBMIT_BUTN = document.querySelector('.submit');
+    const FORM_INPUTS = document.querySelectorAll('form input');
+    const REQUIREDINPUTS = document.querySelectorAll('input[required]');
+    const CANCEL_FORM = document.querySelector('.cancelForm');
     const isOneInputInvalid = () => {
         return Array.from(FORM_INPUTS).some(input => input.checkValidity()===false);
     }
@@ -166,13 +168,46 @@ const form = (() => {
         REQUIREDINPUTS.forEach(requiredInput => requiredInput.setAttribute('placeholder', ' '));
         SLIDER_PIECE.style.marginLeft = 0;
     }
+    REQUIREDINPUTS.forEach(requiredInput =>{
+        requiredInput.addEventListener('click', function(){
+            requiredInput.removeAttribute('placeholder');
+        })
+    })
+    CANCEL_FORM.addEventListener('click', function(){
+        formDisappearence();
+        FORM_INPUTS.forEach(input => input.value = "");
+        resetFormValues();
+    })
+    SUBMIT_BUTN.addEventListener('click', function() {
+        if (! isOneInputInvalid()){
+            formDisappearence();
+            library.addBookToLibrary();
+            library.displayNewBook();
+            resetFormValues();
+    }
+        else{
+            let invaliInputs = Array.from(form.FORM_INPUTS).filter(input => input.checkValidity()===false);
+            invaliInputs.forEach(item => item.setAttribute('placeholder', 'enter a valid value'))
+        }
+    })
+    SLIDER.addEventListener('click', () => {
+        (STATUS_DISPLAY.textContent === 'Book status : read') ? STATUS_DISPLAY.textContent = 'Book status : not read yet' : 
+            STATUS_DISPLAY.textContent = 'Book status : read';
+        (FORM_CHECKBOX.value === 'read') ? FORM_CHECKBOX.value = 'not read yet' : FORM_CHECKBOX.value = 'read';
+        SLIDER_PIECE.style.marginLeft === '31px' ? SLIDER_PIECE.style.marginLeft = 0 : SLIDER_PIECE.style.marginLeft = '31px';
+        })
     return {
-        isOneInputInvalid,
-        formAppearence,
-        formDisappearence,
-        resetFormValues
+        FORM_CHECKBOX,
+        formAppearence
     }
 })()
+
+const githubReference = (()=> {
+    const GITHUBLINK = document.querySelector('a');
+    const GITHUBBTN = document.querySelector('#githubLogo');
+    GITHUBLINK.addEventListener('mouseover', () => GITHUBBTN.setAttribute('src', 'iconGitOrange.jpg'))
+    GITHUBLINK.addEventListener('mouseout', () => GITHUBBTN.setAttribute('src', 'iconGit.jpg'))
+})();
 
 /* would also need to delete the 'library.' before books.
 
@@ -248,46 +283,5 @@ class Form {
 let form = new Form();
 let library = new Library();
 */
-
-ADDBOOK.addEventListener('click', function(){
-    form.formAppearence();
-    FORM_CHECKBOX.value = 'read';
-})
-
-SUBMIT_BUTN.addEventListener('click', function() {
-    if (! form.isOneInputInvalid()){
-        form.formDisappearence();
-        library.addBookToLibrary();
-        library.displayNewBook();
-        form.resetFormValues();
-}
-    else{
-        let invaliInputs = Array.from(FORM_INPUTS).filter(input => input.checkValidity()===false);
-        invaliInputs.forEach(item => item.setAttribute('placeholder', 'enter a valid value'))
-    }
-})
-
-REQUIREDINPUTS.forEach(requiredInput =>{
-    requiredInput.addEventListener('click', function(){
-        requiredInput.removeAttribute('placeholder');
-    })
-})
-
-CANCEL_FORM.addEventListener('click', function(){
-    form.formDisappearence();
-    FORM_INPUTS.forEach(input => input.value = "");
-    form.resetFormValues();
-} )
-
-GITHUBLINK.addEventListener('mouseover', () => GITHUBBTN.setAttribute('src', 'iconGitOrange.jpg'))
-
-GITHUBLINK.addEventListener('mouseout', () => GITHUBBTN.setAttribute('src', 'iconGit.jpg'))
-
-SLIDER.addEventListener('click', () => {
-    (STATUS_DISPLAY.textContent === 'Book status : read') ? STATUS_DISPLAY.textContent = 'Book status : not read yet' : 
-        STATUS_DISPLAY.textContent = 'Book status : read';
-    (FORM_CHECKBOX.value === 'read') ? FORM_CHECKBOX.value = 'not read yet' : FORM_CHECKBOX.value = 'read';
-    SLIDER_PIECE.style.marginLeft === '31px' ? SLIDER_PIECE.style.marginLeft = 0 : SLIDER_PIECE.style.marginLeft = '31px';
-    })
 
 
