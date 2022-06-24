@@ -209,7 +209,7 @@ const githubReference = (()=> {
     GITHUBLINK.addEventListener('mouseout', () => GITHUBBTN.setAttribute('src', 'iconGit.jpg'))
 })();
 
-/* would also need to delete the 'library.' before books.
+/* if we'd want to only use classes : (would also need other changes)
 
 let books = [];
 class Library {
