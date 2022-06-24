@@ -22,10 +22,6 @@ function Book(bookTitle, bookAuthor, bookPages, bookStatus){
     this.status = bookStatus;
 }
 
-Book.prototype.titleInfo = function(){
-    bookToDisplay.appendChild(document.createElement('p')).textContent = `${this.title}`;
-}
-
 function addBookToLibrary() {
     let titleInput =  document.querySelector('#title').value;
     let authorInput = document.querySelector('#author').value;
