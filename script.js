@@ -1,4 +1,3 @@
-let books = [];
 const CONTAINER = document.querySelector('.container');
 const ADDBOOK = document.querySelector('.addBook');
 const FORM_CONTAINER = document.querySelector('.formContainer');
@@ -15,163 +14,252 @@ FORM_CHECKBOX.value = 'read';
 const STATUS_DISPLAY = document.querySelector('.statusDisplay');
 const SLIDER_PIECE = document.querySelector('.slider>span');
 
-function Book(bookTitle, bookAuthor, bookPages, bookStatus){
-    this.title = bookTitle;
-    this.author = bookAuthor;
-    this.pages = bookPages;
-    this.status = bookStatus;
-}
+class Book {
+    constructor(bookTitle, bookAuthor, bookPages, bookStatus) {
+        this.title = bookTitle;
+        this.author = bookAuthor;
+        this.pages = bookPages;
+        this.status = bookStatus;
+    }
 
-function addBookToLibrary() {
-    let titleInput =  document.querySelector('#title').value;
-    let authorInput = document.querySelector('#author').value;
-    let pagesInput = document.querySelector('#pages').value;
-    let statusInput = FORM_CHECKBOX.value;
-    books.push(new Book(titleInput, authorInput, pagesInput , statusInput));
-}
+    createBookCard() {
+        const bookToDisplay = document.createElement('div');
+        bookToDisplay.setAttribute('data-index', library.books.length-1);
+        return bookToDisplay;
+    }
 
-Book.prototype.createBookCard = function() {
-    const bookToDisplay = document.createElement('div');
-    bookToDisplay.setAttribute('data-index', books.length-1);
-    return bookToDisplay;
-}
+    titleInfos() {
+        const titleDisplay = document.createElement('p');
+        titleDisplay.textContent = (library.books[library.books.length-1].title).toUpperCase();
+        return titleDisplay;
+    }
 
-Book.prototype.titleInfos = function(){
-    const titleDisplay = document.createElement('p');
-    titleDisplay.textContent = (books[books.length-1].title).toUpperCase();
-    return titleDisplay;
-}
-
-Book.prototype.authorInfos = function() {
-    const authorDisplay = document.createElement('p');
-    authorDisplay.textContent = `By : ${books[books.length-1].author}`;
+    authorInfos() {
+        const authorDisplay = document.createElement('p');
+    authorDisplay.textContent = `By : ${library.books[library.books.length-1].author}`;
     return authorDisplay;
-}
+    }
 
-Book.prototype.pagesInfos = function() {
-    const pagesDisplay = document.createElement('p');
-    pagesDisplay.textContent = `Number of pages : ${books[books.length-1].pages}`;
-    return pagesDisplay;
-}
+    pagesInfos() {
+        const pagesDisplay = document.createElement('p');
+        pagesDisplay.textContent = `Number of pages : ${library.books[library.books.length-1].pages}`;
+        return pagesDisplay;
+    }
 
-Book.prototype.createDeleteBookBtn = function() {
-    const deleteBook = document.createElement('span');
-    deleteBook.textContent = 'x';
-    deleteBook.style.cursor = 'pointer';
-    deleteBook.classList.add('deleteBook');
-    return deleteBook;   
-}
+    statusInfos() {
+        const statusDis = document.createElement('span');
+        statusDis.classList.add('test');
+        statusDis.textContent = library.books[library.books.length-1].status;
+        return statusDis;
+    }
 
-Book.prototype.createCheckbox = function() {
-    const checkbox = document.createElement('input');
-    checkbox.setAttribute('type', 'checkbox');
-    return checkbox;
-}
-
-Book.prototype.createSlider = function() {
-    const slider = document.createElement('div');
-    slider.classList.add('slider');
-    slider.style.backgroundColor = 'white';
-    slider.setAttribute('data-index', books.length-1);
-    return slider;
-}
-
-Book.prototype.statusInfos = function() {
-    const statusDis = document.createElement('span');
-    statusDis.classList.add('test');
-    statusDis.textContent = books[books.length-1].status;
-    return statusDis;
-}
-
-Book.prototype.appendBookElements = function (statusDisplay, checkbox, statusDis, deleteBook, titleDisplay, authorDisplay, pagesDisplay, bookToDisplay, slider, sliderPiece) {
-    statusDisplay.append(checkbox, statusDis, slider);
-    slider.appendChild(sliderPiece);
-    bookToDisplay.append(deleteBook, titleDisplay, authorDisplay, pagesDisplay, statusDisplay);
-    CONTAINER.appendChild(bookToDisplay);
-}
-
-Book.prototype.defineSliderColor = function(sliderPiece) {
-    if (books[books.length-1].status === 'read'){
-        sliderPiece.style.marginLeft = 0;
-        sliderPiece.style.backgroundColor = '#E62100';
-    } else {
-        sliderPiece.style.marginLeft = '31px';
-        sliderPiece.style.backgroundColor = '#15454C';
-    } 
-}
-
-Book.prototype.deleteABook = function(deleteBook){
-    deleteBook.addEventListener('click', (e) => {
-        books.splice(e.target.parentElement.getAttribute('data-index'),1);
-        CONTAINER.removeChild(e.target.parentElement);
-    })
-}
-
-Book.prototype.switchStatus = function(slider, sliderPiece) {
-    slider.addEventListener('click', ()=> {
-        slider.previousElementSibling.textContent === 'read' ? slider.previousElementSibling.textContent = 'not read yet' :
-            slider.previousElementSibling.textContent = 'read';
-        books[slider.getAttribute('data-index')].status = slider.previousElementSibling.textContent;
-        sliderPiece.style.marginLeft === '31px' ? sliderPiece.style.marginLeft = 0 : sliderPiece.style.marginLeft = '31px';
-        sliderPiece.style.marginLeft === '31px' ? sliderPiece.style.backgroundColor = '#15454C' : sliderPiece.style.backgroundColor = '#E62100';
-    })
-}
-
-function displayNewBook(){
-    const bookToDisplay = books[books.length-1].createBookCard();
-    const titleDisplay = books[books.length-1].titleInfos();
-    const authorDisplay = books[books.length-1].authorInfos();
-    const pagesDisplay = books[books.length-1].pagesInfos();
-    const deleteBook = books[books.length-1].createDeleteBookBtn();
-
-    const statusDisplay = document.createElement('div');
-    const checkbox = books[books.length-1].createCheckbox();
-    const slider = books[books.length-1].createSlider();
-    const statusDis = books[books.length-1].statusInfos();
-    const sliderPiece = document.createElement('span');
-
-    books[books.length-1].appendBookElements(statusDisplay, checkbox, statusDis, deleteBook, titleDisplay, authorDisplay, pagesDisplay, bookToDisplay, slider, sliderPiece);
-    books[books.length-1].defineSliderColor(sliderPiece);
+    createDeleteBookBtn() {
+        const deleteBook = document.createElement('span');
+        deleteBook.textContent = 'x';
+        deleteBook.style.cursor = 'pointer';
+        deleteBook.classList.add('deleteBook');
+        return deleteBook;   
+    }
     
-    books[books.length-1].deleteABook(deleteBook);
-    books[books.length-1].switchStatus(slider, sliderPiece);
+    createCheckbox() {
+        const checkbox = document.createElement('input');
+        checkbox.setAttribute('type', 'checkbox');
+        return checkbox;
+    }
+    
+    createSlider() {
+        const slider = document.createElement('div');
+        slider.classList.add('slider');
+        slider.style.backgroundColor = 'white';
+        slider.setAttribute('data-index', library.books.length-1);
+        return slider;
+    }
+    
+    appendBookElements(statusDisplay, checkbox, statusDis, deleteBook, titleDisplay, authorDisplay, pagesDisplay, bookToDisplay, slider, sliderPiece) {
+        statusDisplay.append(checkbox, statusDis, slider);
+        slider.appendChild(sliderPiece);
+        bookToDisplay.append(deleteBook, titleDisplay, authorDisplay, pagesDisplay, statusDisplay);
+        CONTAINER.appendChild(bookToDisplay);
+    }
+    
+    defineSliderColor(sliderPiece) {
+        if (library.books[library.books.length-1].status === 'read'){
+            sliderPiece.style.marginLeft = 0;
+            sliderPiece.style.backgroundColor = '#E62100';
+        } else {
+            sliderPiece.style.marginLeft = '31px';
+            sliderPiece.style.backgroundColor = '#15454C';
+        } 
+    }
+    
+    deleteABook(deleteBook){
+        deleteBook.addEventListener('click', (e) => {
+            library.books.splice(e.target.parentElement.getAttribute('data-index'),1);
+            CONTAINER.removeChild(e.target.parentElement);
+        })
+    }
+ 
+    switchStatus(slider, sliderPiece) {
+        slider.addEventListener('click', ()=> {
+            slider.previousElementSibling.textContent === 'read' ? slider.previousElementSibling.textContent = 'not read yet' :
+                slider.previousElementSibling.textContent = 'read';
+            library.books[slider.getAttribute('data-index')].status = slider.previousElementSibling.textContent;
+            sliderPiece.style.marginLeft === '31px' ? sliderPiece.style.marginLeft = 0 : sliderPiece.style.marginLeft = '31px';
+            sliderPiece.style.marginLeft === '31px' ? sliderPiece.style.backgroundColor = '#15454C' : sliderPiece.style.backgroundColor = '#E62100';
+        })
+    }
 }
 
-function isOneInputInvalid(){
-    return Array.from(FORM_INPUTS).some(input => input.checkValidity()===false);
+const library = (()=> {
+    let books = [];
+    const displayNewBook = () => {
+        const bookToDisplay = books[books.length-1].createBookCard();
+        const titleDisplay = books[books.length-1].titleInfos();
+        const authorDisplay = books[books.length-1].authorInfos();
+        const pagesDisplay = books[books.length-1].pagesInfos();
+        const deleteBook = books[books.length-1].createDeleteBookBtn();
+    
+        const statusDisplay = document.createElement('div');
+        const checkbox = books[books.length-1].createCheckbox();
+        const slider = books[books.length-1].createSlider();
+        const statusDis = books[books.length-1].statusInfos();
+        const sliderPiece = document.createElement('span');
+    
+        books[books.length-1].appendBookElements(statusDisplay, checkbox, statusDis, deleteBook, titleDisplay, authorDisplay, pagesDisplay, bookToDisplay, slider, sliderPiece);
+        books[books.length-1].defineSliderColor(sliderPiece);
+        
+        books[books.length-1].deleteABook(deleteBook);
+        books[books.length-1].switchStatus(slider, sliderPiece);
+    }
+    const addBookToLibrary = ()=> {
+        let titleInput =  document.querySelector('#title').value;
+        let authorInput = document.querySelector('#author').value;
+        let pagesInput = document.querySelector('#pages').value;
+        let statusInput = FORM_CHECKBOX.value;
+        books.push(new Book(titleInput, authorInput, pagesInput , statusInput));
+    }
+    return {
+        books,
+        addBookToLibrary,
+        displayNewBook
+    }
+})()
+
+const form = (() => {
+    const isOneInputInvalid = () => {
+        return Array.from(FORM_INPUTS).some(input => input.checkValidity()===false);
+    }
+    const formAppearence = ()=> {
+        MASK.style.opacity = 0.5; 
+        MASK.classList.add('blur');
+        FORM_CONTAINER.classList.add('formAppearance');
+    }
+    const formDisappearence = ()=> {
+        MASK.style.opacity = 1; 
+        MASK.classList.remove('blur');
+        FORM_CONTAINER.classList.remove('formAppearance');
+    }
+    const resetFormValues = ()=> {
+        FORM_CHECKBOX.value = 'on';
+        STATUS_DISPLAY.textContent = 'Book status : read';
+        FORM_INPUTS.forEach(input => input.value = "");
+        REQUIREDINPUTS.forEach(requiredInput => requiredInput.setAttribute('placeholder', ' '));
+        SLIDER_PIECE.style.marginLeft = 0;
+    }
+    return {
+        isOneInputInvalid,
+        formAppearence,
+        formDisappearence,
+        resetFormValues
+    }
+})()
+
+/* would also need to delete the 'library.' before books.
+
+let books = [];
+class Library {
+    constructor() {
+        if(! Library.instance){
+            Library.instance = this;
+        } 
+        return Library.instance;
+    }
+
+    displayNewBook() {
+        const bookToDisplay = books[books.length-1].createBookCard();
+        const titleDisplay = books[books.length-1].titleInfos();
+        const authorDisplay = books[books.length-1].authorInfos();
+        const pagesDisplay = books[books.length-1].pagesInfos();
+        const deleteBook = books[books.length-1].createDeleteBookBtn();
+    
+        const statusDisplay = document.createElement('div');
+        const checkbox = books[books.length-1].createCheckbox();
+        const slider = books[books.length-1].createSlider();
+        const statusDis = books[books.length-1].statusInfos();
+        const sliderPiece = document.createElement('span');
+    
+        books[books.length-1].appendBookElements(statusDisplay, checkbox, statusDis, deleteBook, titleDisplay, authorDisplay, pagesDisplay, bookToDisplay, slider, sliderPiece);
+        books[books.length-1].defineSliderColor(sliderPiece);
+        
+        books[books.length-1].deleteABook(deleteBook);
+        books[books.length-1].switchStatus(slider, sliderPiece);
+    }
+
+    addBookToLibrary() {
+        let titleInput =  document.querySelector('#title').value;
+        let authorInput = document.querySelector('#author').value;
+        let pagesInput = document.querySelector('#pages').value;
+        let statusInput = FORM_CHECKBOX.value;
+        books.push(new Book(titleInput, authorInput, pagesInput , statusInput));
+    }
 }
 
-function formAppearence() {
-    MASK.style.opacity = 0.5; 
-    MASK.classList.add('blur');
-    FORM_CONTAINER.classList.add('formAppearance')
+class Form {
+    constructor() {
+        if(! Form.instance) Form.instance = this;
+        return Form.instance;
+    }
+
+    isOneInputInvalid() {
+        return Array.from(FORM_INPUTS).some(input => input.checkValidity()===false);
+    }
+
+    formAppearence() {
+        MASK.style.opacity = 0.5; 
+        MASK.classList.add('blur');
+        FORM_CONTAINER.classList.add('formAppearance');
+    }
+
+    formDisappearence() {
+        MASK.style.opacity = 1; 
+        MASK.classList.remove('blur');
+        FORM_CONTAINER.classList.remove('formAppearance');
+    }
+
+    resetFormValues() {
+        FORM_CHECKBOX.value = 'on';
+        STATUS_DISPLAY.textContent = 'Book status : read';
+        FORM_INPUTS.forEach(input => input.value = "");
+        REQUIREDINPUTS.forEach(requiredInput => requiredInput.setAttribute('placeholder', ' '));
+        SLIDER_PIECE.style.marginLeft = 0;
+    }
 }
 
-function formDisappearence() {
-    MASK.style.opacity = 1; 
-    MASK.classList.remove('blur');
-    FORM_CONTAINER.classList.remove('formAppearance');
-}
-
-function resetFormValues() {
-    FORM_CHECKBOX.value = 'on';
-    STATUS_DISPLAY.textContent = 'Book status : read';
-    FORM_INPUTS.forEach(input => input.value = "");
-    REQUIREDINPUTS.forEach(requiredInput => requiredInput.setAttribute('placeholder', ' '));
-    SLIDER_PIECE.style.marginLeft = 0;
-}
+let form = new Form();
+let library = new Library();
+*/
 
 ADDBOOK.addEventListener('click', function(){
-    formAppearence();
+    form.formAppearence();
     FORM_CHECKBOX.value = 'read';
 })
 
 SUBMIT_BUTN.addEventListener('click', function() {
-    if (!isOneInputInvalid()){
-        formDisappearence();
-        addBookToLibrary();
-        displayNewBook(books);
-        resetFormValues();
+    if (! form.isOneInputInvalid()){
+        form.formDisappearence();
+        library.addBookToLibrary();
+        library.displayNewBook();
+        form.resetFormValues();
 }
     else{
         let invaliInputs = Array.from(FORM_INPUTS).filter(input => input.checkValidity()===false);
@@ -186,9 +274,9 @@ REQUIREDINPUTS.forEach(requiredInput =>{
 })
 
 CANCEL_FORM.addEventListener('click', function(){
-    formDisappearence();
+    form.formDisappearence();
     FORM_INPUTS.forEach(input => input.value = "");
-    resetFormValues();
+    form.resetFormValues();
 } )
 
 GITHUBLINK.addEventListener('mouseover', () => GITHUBBTN.setAttribute('src', 'iconGitOrange.jpg'))
